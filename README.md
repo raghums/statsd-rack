@@ -23,7 +23,19 @@ Edit your app.rb file
 ```ruby
   module YourApp
     class App < Padrino::Application
-      use Statsd::Rack "myapp" # Will namespace statsd metric with 'myapp'
+      use StatsdRack::Rack "myapp" # Will namespace statsd metric with 'myapp'
+      ...
+    end
+  end
+```
+## Usage - Rails
+
+Edit your config/application.rb file:
+
+```ruby
+  module YourApp
+    class Application < Rails::Application
+      config.middleware.use StatsdRack::Rack, 'yourapp'
       ...
     end
   end

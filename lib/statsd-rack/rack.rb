@@ -26,19 +26,19 @@ module StatsdRack
       now = Time.now
       diff = (now - @start)
 
-      if @stats
-        @stats.timing("response_time", diff * 1000)
+      if $stats
+        $stats.timing("response_time", diff * 1000)
         if VALID_METHODS.include?(env[REQUEST_METHOD])
           stat = "response_time.#{env[REQUEST_METHOD].downcase}"
-          @stats.timing(stat, diff * 1000)
+          $stats.timing(stat, diff * 1000)
         end
 
         if suffix = status_suffix(status)
-          @stats.increment "status_code.#{status_suffix(status)}"
+          $stats.increment "status_code.#{status_suffix(status)}"
         end
         if @track_gc && GC.time > 0
-          @stats.timing "gc.time", GC.time / 1000
-          @stats.count  "gc.collections", GC.collections
+          $stats.timing "gc.time", GC.time / 1000
+          $stats.count  "gc.collections", GC.collections
         end
       end
 
@@ -99,7 +99,6 @@ module StatsdRack
     def call(env)
       @start = Time.now
       GC.clear_stats if @track_gc
-
       status, headers, body = @app.call(env)
       body = Body.new(body) { record_request(status, env) }
       [status, headers, body]

@@ -25,7 +25,6 @@ module StatsdRack
     def record_request(status, env)
       now = Time.now
       diff = (now - @start)
-
       if $statsd
         $statsd.timing("response_time", diff * 1000)
         if VALID_METHODS.include?(env[REQUEST_METHOD])
@@ -36,6 +35,13 @@ module StatsdRack
         if suffix = status_suffix(status)
           $statsd.increment "status_code.#{status_suffix(status)}"
         end
+
+        api = env["API"]
+        if api
+          $statsd.timing("response_time.#{api}", diff * 1000)
+          $statsd.increment "status_code.#{status_suffix(status)}.#{api}"
+        end
+
         if @track_gc && GC.time > 0
           $statsd.timing "gc.time", GC.time / 1000
           $statsd.count  "gc.collections", GC.collections

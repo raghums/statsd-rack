@@ -28,6 +28,18 @@ Edit your app.rb file
     end
   end
 ```
+(Optional) If you set the `env['API']` parameter inside your application, the time taken and the counter for the API will be tracked
+
+```ruby
+  YourApp::App.controllers :yourcontroller do
+    get :index do
+      env['API'] = "getStuff"
+      ...
+    end
+    ...
+  end
+```
+
 ## Usage - Rails
 
 Edit your config/application.rb file:
@@ -38,6 +50,18 @@ Edit your config/application.rb file:
       config.middleware.use StatsdRack::Rack, 'yourapp'
       ...
     end
+  end
+```
+
+(Optional) If you set the `env['API']` parameter inside your application, the time taken and the counter for the API will be tracked
+
+```ruby
+  YourController < ApplicationController
+    def index
+      request.env['API'] = "getStuff"
+      ...
+    end
+    ...
   end
 ```
 

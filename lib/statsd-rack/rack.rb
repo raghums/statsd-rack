@@ -1,4 +1,5 @@
 require "statsd-rack/version"
+require "statsd-ruby"
 
 module StatsdRack
   
@@ -16,7 +17,7 @@ module StatsdRack
       stats_prefix = prefix || 'rack'
       @track_gc = GC.respond_to?(:time)
       if !$statsd
-        $statsd = Statsd.new('localhost', 9125).tap{|sd| sd.namespace = stats_prefix}
+        $statsd = ::Statsd.new('localhost', 9125).tap{|sd| sd.namespace = stats_prefix}
       end
     end
 

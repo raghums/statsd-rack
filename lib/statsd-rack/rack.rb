@@ -26,19 +26,19 @@ module StatsdRack
       now = Time.now
       diff = (now - @start)
 
-      if $stats
-        $stats.timing("response_time", diff * 1000)
+      if $statsd
+        $statsd.timing("response_time", diff * 1000)
         if VALID_METHODS.include?(env[REQUEST_METHOD])
           stat = "response_time.#{env[REQUEST_METHOD].downcase}"
-          $stats.timing(stat, diff * 1000)
+          $statsd.timing(stat, diff * 1000)
         end
 
         if suffix = status_suffix(status)
-          $stats.increment "status_code.#{status_suffix(status)}"
+          $statsd.increment "status_code.#{status_suffix(status)}"
         end
         if @track_gc && GC.time > 0
-          $stats.timing "gc.time", GC.time / 1000
-          $stats.count  "gc.collections", GC.collections
+          $statsd.timing "gc.time", GC.time / 1000
+          $statsd.count  "gc.collections", GC.collections
         end
       end
 

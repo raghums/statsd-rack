@@ -1,14 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'statsd/rack/version'
+require 'statsd-rack/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "statsd-rack"
-  spec.version       = Statsd::Rack::VERSION
+  spec.version       = StatsdRack::VERSION
   spec.authors       = ["Raghuram Sreenath"]
   spec.email         = ["raghums@gmail.com"]
   spec.description   = %q{Initialize a statsd client that is optionally namespaced. By default pumps request and GC metrics.}
+  spec.summary   = %q{Initialize a statsd client that is optionally namespaced. By default pumps request and GC metrics.}
   spec.homepage      = "http://github.com/raghums/statsd-rack"
   spec.license       = "MIT"
 

@@ -1,6 +1,6 @@
-require "statsd/rack/version"
+require "statsd-rack/version"
 
-module Statsd
+module StatsdRack
   
   class Rack
     REQUEST_METHOD = 'REQUEST_METHOD'.freeze
